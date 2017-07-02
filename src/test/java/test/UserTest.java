@@ -1,10 +1,14 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
 import com.github.zhangkaitao.shiro.chapter19.entity.Permission;
@@ -16,7 +20,7 @@ import com.github.zhangkaitao.shiro.chapter19.service.ResourceService;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring-config.xml")
+@ContextConfiguration("classpath:chapter6/spring-config.xml")
 public class UserTest {
 
 	@Autowired UserService userService;
@@ -30,13 +34,19 @@ public class UserTest {
 		organizationService.save(org);
 	}
 	
+//	@Transactional
 	@Test
 	public void newUser(){
-		User user = new User();
-		user.setUsername("admin");
-		user.setPassword("123456");
-		user.setOrganization(organizationService.get(1l));
+		List<User> users = new ArrayList<User>(); 
+		User user = new User("zhang", "123");
+		User user2 = new User("lisi", "1234");
+		User user3 = new User("wangwu", "1234");
+		User user4 = new User("zhaoliu", "1234");
 		userService.save(user);
+//		userService.save(user2);
+//		userService.save(user3);
+//		userService.save(user4);
+		
 	}
 	
 	@Test

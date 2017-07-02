@@ -19,8 +19,8 @@
         <form:hidden path="available"/>
 
         <div class="form-group">
-            <form:label path="role">角色名：</form:label>
-            <form:input path="role"/>
+            <form:label path="name">角色名：</form:label>
+            <form:input path="name"/>
         </div>
 
         <div class="form-group">

@@ -29,7 +29,7 @@ public class User extends BaseEntity{
 	private static final long serialVersionUID = -6757432250580429608L;
 	
 	@Column(length=32)
-	@Size(min=4, max=32, message="用户名需4-32位字符")
+	@Size(min=3, max=32, message="用户名需4-32位字符")
 	private String username;
 	
 	@NotEmpty(message="密码不为空")
@@ -57,7 +57,18 @@ public class User extends BaseEntity{
 	
 	
 	
-	 @Transient  
+	 public User(String string, String password2) {
+		 this.username = string;
+		 this.password = password2;
+	}
+
+
+	public User() {
+	}
+
+
+
+	@Transient  
     public Set<String> getRoleNames(){  
         List<Role> roles=getRoles();  
         Set<String> set=new HashSet<String>();  

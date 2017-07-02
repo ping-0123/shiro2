@@ -18,6 +18,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     private Cache<String, AtomicInteger> passwordRetryCache;
 
+    public RetryLimitHashedCredentialsMatcher(){}
+    
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
         passwordRetryCache = cacheManager.getCache("passwordRetryCache");
     }
