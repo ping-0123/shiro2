@@ -1,6 +1,5 @@
 package test;
 
-import org.apache.commons.collections.ResettableIterator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
 import com.github.zhangkaitao.shiro.chapter19.entity.Permission;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource;
-import com.github.zhangkaitao.shiro.chapter19.entity.User;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource.ResourceType;
+import com.github.zhangkaitao.shiro.chapter19.entity.User;
 import com.github.zhangkaitao.shiro.chapter19.service.OrganizationService;
 import com.github.zhangkaitao.shiro.chapter19.service.ResourceService;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;

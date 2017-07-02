@@ -78,6 +78,15 @@
                 <prop key="hibernate.format_sql">${hibernate.formatSql}</prop>  
                 <prop key="hibernate.use_sql_commants">${hibernate.useSqlComments}</prop>  
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> 
+                <prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+                     <!-- 开启二级缓存 -->  
+                <prop key=" hibernate.cache.use_second_level_cache">true</prop>  
+                <!-- 启用查询缓存 -->  
+                <prop key=" hibernate.cache.use_query_cache">true</prop>  
+                <!-- 配置二级缓存提供商 -->  
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>  
+                <!-- 加载缓存所需配置文件 -->  
+                <prop key="hibernate.net.sf.ehcache.configurationResourceName">classpath:hibernate-ehcache.xml</prop>  
              <!--     <prop key="hibernate.current_session_context_class">thread</prop>  -->
             </props>  
         </property>  

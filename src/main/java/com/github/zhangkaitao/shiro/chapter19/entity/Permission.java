@@ -12,8 +12,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name="sys_permission")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Permission extends BaseEntity{
 	private static final long serialVersionUID = 7525405111409749914L;
 	

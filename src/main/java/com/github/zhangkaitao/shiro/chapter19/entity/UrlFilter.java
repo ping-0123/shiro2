@@ -5,9 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name="sys_url_filter", uniqueConstraints=
 		@UniqueConstraint(name="uk_urlFilter_url", columnNames={"url"}))
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class UrlFilter extends BaseEntity {
 
 	/**

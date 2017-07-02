@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,10 +18,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="sys_user")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class User extends BaseEntity{
 	private static final long serialVersionUID = -6757432250580429608L;
 	
@@ -39,7 +44,7 @@ public class User extends BaseEntity{
 	
 	private Boolean locked=Boolean.FALSE;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.PERSIST})
 	@JoinColumn(foreignKey=@ForeignKey(name="fk_user_organization_id"))
 	private Organization organization;
 	

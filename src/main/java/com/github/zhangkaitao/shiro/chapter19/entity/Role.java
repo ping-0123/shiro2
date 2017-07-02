@@ -11,8 +11,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name="sys_role")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseEntity {
 	private static final long serialVersionUID = 8453032007727952230L;
 	

@@ -12,10 +12,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name="sys_organization", uniqueConstraints=
 	//同一级组织下不能重名
 	@UniqueConstraint(name="uk_organization_name_parentId", columnNames={"name", "parent_id"}))
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Organization extends BaseEntity {
 
 	/**
@@ -37,6 +41,9 @@ public class Organization extends BaseEntity {
 	
 	@OneToMany(mappedBy="parent")
 	private List<Organization> childs = new ArrayList<>();
+	
+	@OneToMany(mappedBy="organization")
+	private List<User> users = new ArrayList<>();
 
 	public String getName() {
 		return name;
