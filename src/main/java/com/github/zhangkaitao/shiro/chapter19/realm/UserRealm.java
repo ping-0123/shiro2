@@ -1,25 +1,41 @@
 package com.github.zhangkaitao.shiro.chapter19.realm;
 
-import com.github.zhangkaitao.shiro.chapter19.entity.User;
-import com.github.zhangkaitao.shiro.chapter19.service.UserService;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.github.zhangkaitao.shiro.chapter19.credentials.RetryLimitHashedCredentialsMatcher;
+import com.github.zhangkaitao.shiro.chapter19.entity.User;
+import com.github.zhangkaitao.shiro.chapter19.service.UserService;
 
 /**
  * <p>User: Zhang Kaitao
  * <p>Date: 14-1-28
  * <p>Version: 1.0
  */
+
+@Component
 public class UserRealm extends AuthorizingRealm {
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
+    @Autowired public void setCredentialsMatcher(RetryLimitHashedCredentialsMatcher credentialsMatcher) {
+		super.setCredentialsMatcher(credentialsMatcher);
+	}
 
+    
+    public User findUser(String username){
+    	return userService.findByUsername(username);
+    }
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
@@ -82,5 +98,9 @@ public class UserRealm extends AuthorizingRealm {
         clearAllCachedAuthenticationInfo();
         clearAllCachedAuthorizationInfo();
     }
+
+
+    
+
 
 }

@@ -6,6 +6,8 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>Date: 14-1-28
  * <p>Version: 1.0
  */
+
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
     private Cache<String, AtomicInteger> passwordRetryCache;
@@ -45,4 +48,5 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         }
         return matches;
     }
+
 }

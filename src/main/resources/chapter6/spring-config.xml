@@ -116,6 +116,6 @@
 
 <!--
     <bean class="com.github.zhangkaitao.shiro.spring.SpringUtils"/>
-    <import resource="classpath:spring-config-cache.xml"/>
-    <import resource="classpath:spring-config-shiro.xml"/>   -->
+    <import resource="classpath:spring-config-cache.xml"/>  -->
+    <import resource="classpath:chapter6/spring-config-shiro.xml"/> 
 </beans>
