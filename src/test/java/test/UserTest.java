@@ -1,8 +1,5 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -19,8 +16,8 @@ import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
 import com.github.zhangkaitao.shiro.chapter19.entity.Permission;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource.ResourceType;
-import com.github.zhangkaitao.shiro.chapter19.realm.UserRealm;
 import com.github.zhangkaitao.shiro.chapter19.entity.User;
+import com.github.zhangkaitao.shiro.chapter19.realm.UserRealm;
 import com.github.zhangkaitao.shiro.chapter19.service.OrganizationService;
 import com.github.zhangkaitao.shiro.chapter19.service.ResourceService;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;

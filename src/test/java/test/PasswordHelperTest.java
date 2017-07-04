@@ -19,5 +19,6 @@ public class PasswordHelperTest {
 		helper.encryptPassword(user);
 		
 		System.out.println(user.getCredentialsSalt());
+		System.err.println("password: " + user.getPassword());
 	}
 }

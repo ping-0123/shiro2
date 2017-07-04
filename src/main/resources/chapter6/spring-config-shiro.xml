@@ -3,6 +3,7 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
@@ -11,19 +12,10 @@
 	 <bean id="ehcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 	        <property name="cacheManagerConfigFile" value="classpath:chapter6/ehcache.xml"/>
 	 </bean>
-	
-	    <!-- 凭证匹配器 -->
-    <bean id="credentialsMatcher" class="com.github.zhangkaitao.shiro.chapter19.credentials.RetryLimitHashedCredentialsMatcher">
-        <constructor-arg ref="ehcacheManager"/>
-        <property name="hashAlgorithmName" value="md5"/>
-        <property name="hashIterations" value="2"/>
-        <property name="hashSalted" value="true"></property>
-        <property name="storedCredentialsHexEncoded" value="true"/>
-    </bean>
 
    	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="userRealm"/>
-        <property name="cacheManager" ref="ehcacheManager"></property>
+        <property name="cacheManager" ref=""></property>
     </bean>
 
 </beans>
