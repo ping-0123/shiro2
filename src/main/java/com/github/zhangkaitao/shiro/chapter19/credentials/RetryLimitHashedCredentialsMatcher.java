@@ -1,15 +1,14 @@
 package com.github.zhangkaitao.shiro.chapter19.credentials;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>User: Zhang Kaitao
@@ -17,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>Version: 1.0
  */
 
+@Component
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
     private Cache<String, AtomicInteger> passwordRetryCache;

@@ -4,8 +4,11 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,7 +27,14 @@ import test.chapter6.BaseTest;
 public class UserRealmTest extends BaseTest {
     
 	private String configFile= "classpath:chapter6/shiro.ini";
+	@Autowired private EhCacheManager cacheManager;
 
+	@Test
+	public void testCacheManager(){
+		Cache<Object, Object> cache = cacheManager.getCache("passwordRetryCache");
+		cache.put("a", "aa");
+		System.out.println(cache.get("a"));
+	}
     @Test
       public void testLoginSuccess() {
         login(configFile, "admin", "admin");
