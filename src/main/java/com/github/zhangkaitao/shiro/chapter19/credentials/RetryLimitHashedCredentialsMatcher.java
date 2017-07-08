@@ -8,7 +8,6 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
-import org.springframework.stereotype.Component;
 
 /**
  * <p>User: Zhang Kaitao
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
  * <p>Version: 1.0
  */
 
-@Component
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
     private Cache<String, AtomicInteger> passwordRetryCache;

@@ -24,11 +24,11 @@ import com.github.zhangkaitao.shiro.chapter19.service.UserService;
  * <p>Version: 1.0
  */
 
-@Component
+//@Component
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired private UserService userService;
-    @Autowired public void setCredentialsMatcher(RetryLimitHashedCredentialsMatcher credentialsMatcher) {
+    public void setCredentialsMatcher(RetryLimitHashedCredentialsMatcher credentialsMatcher) {
 		super.setCredentialsMatcher(credentialsMatcher);
 	}
 

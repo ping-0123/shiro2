@@ -34,6 +34,10 @@ public class UserRealmTest extends BaseTest {
 		Cache<Object, Object> cache = cacheManager.getCache("passwordRetryCache");
 		cache.put("a", "aa");
 		System.out.println(cache.get("a"));
+		
+		Cache<Object, Object> cache2 = cacheManager.getCache("cache2");
+		cache2.put("bb", "bbbbb");
+		System.out.println(cache.get("bb"));
 	}
     @Test
       public void testLoginSuccess() {

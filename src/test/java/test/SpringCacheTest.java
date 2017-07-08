@@ -32,7 +32,7 @@ public class SpringCacheTest {
 		} catch (CacheException | IOException e) {
 			e.printStackTrace();
 		}  
-	  
+		
 	    //创建Spring的CacheManager  
 	    EhCacheCacheManager cacheCacheManager = new EhCacheCacheManager();  
 	    //设置底层的CacheManager  
@@ -45,7 +45,8 @@ public class SpringCacheTest {
 	    //根据缓存名字获取Cache  
 	    Cache cache = cacheCacheManager.getCache("passwordRetryCache");  
 	    //往缓存写数据  
-	    cache.put(id, user);  
+	    cache.put(id, user); 
+	    
 	    //从缓存读数据  
 //	    Assert.assertNotNull(cache.get(id, User.class))
 	    System.out.println(cache.get(id, User.class).getUsername());

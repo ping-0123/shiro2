@@ -1,5 +1,8 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -15,6 +18,7 @@ import com.github.zhangkaitao.shiro.chapter19.credentials.RetryLimitHashedCreden
 import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
 import com.github.zhangkaitao.shiro.chapter19.entity.Permission;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource;
+import com.github.zhangkaitao.shiro.chapter19.entity.Role;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource.ResourceType;
 import com.github.zhangkaitao.shiro.chapter19.entity.User;
 import com.github.zhangkaitao.shiro.chapter19.realm.UserRealm;
@@ -58,7 +62,17 @@ public class UserTest {
 //	@Transactional
 	@Test
 	public void newUser(){
-		User user = new User("yiping", "suning0987");
+		User user = new User("admin", "admin");
+		// set roles
+		Role role = new Role();
+		role.setId(1);
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(role);
+		user.setRoles(roles);
+		//set organization
+		Organization organization = new Organization();
+		organization.setId(1);
+		user.setOrganization(organization);
 		userService.save(user);
 		
 //		userService.save(user2);

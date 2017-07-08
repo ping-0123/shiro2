@@ -33,13 +33,14 @@ public class SpringCacheManagerWrapper implements CacheManager {
         this.cacheManager = cacheManager;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
         org.springframework.cache.Cache springCache = cacheManager.getCache(name);
-        return new SpringCacheWrapper(springCache);
+        return (Cache<K, V>) new SpringCacheWrapper(springCache);
     }
 
-    static class SpringCacheWrapper implements Cache {
+    static class  SpringCacheWrapper implements Cache<Object, Object> {
         private org.springframework.cache.Cache springCache;
 
         SpringCacheWrapper(org.springframework.cache.Cache springCache) {

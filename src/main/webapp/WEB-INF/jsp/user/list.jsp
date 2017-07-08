@@ -30,7 +30,7 @@
         <c:forEach items="${userList}" var="user">
             <tr>
                 <td>${user.username}</td>
-                <td>${zhangfn:organizationName(user.organization.id)}</td>
+                <td>${user.organization.name}</td>
                <!--  <td>${zhangfn:roleNames(user.roleIds)}</td> --> 
                <td>${user.getRoleNames()}</td>
                 <td>
