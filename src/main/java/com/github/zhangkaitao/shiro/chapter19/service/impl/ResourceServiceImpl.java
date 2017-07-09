@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -68,4 +69,9 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource,Long> implemen
 	    }
 
 
+	    @Override
+	    @Cacheable(value="service", key="targetClass")
+	    public List<Resource> findAll(){
+	    	return super.findAll();
+	    }
 }

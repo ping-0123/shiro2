@@ -11,7 +11,7 @@
     <form:form method="post" commandName="resource">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
-        <form:hidden path="parentId"/>
+        <form:hidden path="parent.id"/>
         <form:hidden path="parentIds"/>
 
         <c:if test="${not empty parent}">

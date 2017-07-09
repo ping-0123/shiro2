@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -27,13 +28,13 @@ public class Permission extends BaseEntity{
 	@Column(length=128)
 	private String description;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="sys_role_permission",
 			joinColumns=@JoinColumn(name="permission_id", foreignKey=@ForeignKey(name="fk_rolePermission_permission_id")),
 			inverseJoinColumns=@JoinColumn(name="role_id", foreignKey=@ForeignKey(name="fk_rolePermission_role_id")))
 	private List<Role> roles = new ArrayList<>();
 	
-	@OneToOne(mappedBy="permission")
+	@OneToOne(mappedBy="permission", fetch=FetchType.LAZY)
 	private Resource resource;
 	
 	public Permission(){}

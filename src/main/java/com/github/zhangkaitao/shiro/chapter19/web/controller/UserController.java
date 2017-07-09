@@ -22,6 +22,7 @@ import com.github.zhangkaitao.shiro.chapter19.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
+	
     @Autowired
     private UserService userService;
 

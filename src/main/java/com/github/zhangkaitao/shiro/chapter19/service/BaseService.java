@@ -3,6 +3,8 @@ package com.github.zhangkaitao.shiro.chapter19.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.github.zhangkaitao.shiro.chapter19.entity.PageBean;
 import com.github.zhangkaitao.shiro.chapter19.exception.DataNotFoundException;
 

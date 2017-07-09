@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.github.zhangkaitao.shiro.chapter19.dao.UserDao;
@@ -59,4 +60,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	      update(user);
 		
 	}
+	
+	@Override
+	@Cacheable(value="service", keyGenerator="keyGenerator")
+	public List<User> findAll(){
+		return super.findAll();
+	}
+
 }

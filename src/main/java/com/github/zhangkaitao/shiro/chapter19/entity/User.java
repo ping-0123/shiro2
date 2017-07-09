@@ -44,11 +44,11 @@ public class User extends BaseEntity{
 	
 	private Boolean locked=Boolean.FALSE;
 	
-	@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.PERSIST})
+	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST})
 	@JoinColumn(foreignKey=@ForeignKey(name="fk_user_organization_id"))
 	private Organization organization;
 	
-	
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@ManyToMany
 	@JoinTable(name="sys_user_role", 
 		joinColumns={@JoinColumn(name="user_id", foreignKey =@ForeignKey(name="fk_userRole_user_id"))},

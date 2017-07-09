@@ -9,6 +9,25 @@
 		overflowToDisk="true"
 		diskPersistent="false"
 		diskExpiryThreadIntervalSeconds="60" />
+		
+		 <cache   
+         name="com.github.zhangkaitao.shiro.chapter19.entity.Resource"  
+         maxElementsInMemory="1000"  
+         memoryStoreEvictionPolicy="LRU"   
+         eternal="true"   
+         diskPersistent="false"  
+         overflowToDisk="false"   
+         maxElementsOnDisk="1000000" /> 
+         
+        <cache   
+         name="com.github.zhangkaitao.shiro.chapter19.entity.User"  
+         maxElementsInMemory="1000"  
+         memoryStoreEvictionPolicy="LRU"   
+         eternal="true"   
+         diskPersistent="false"  
+         overflowToDisk="true"   
+         maxElementsOnDisk="1000000" /> 
+         
 </ehcache>
 
 <!-- maxElementsInMemory：属性用于指定缓存中最多可放多少个对象。 
@@ -18,3 +37,6 @@ eternal ：属性指定缓存是否永久有效。
 	timeToLiveSeconds ：属性指定缓存的生命长度, 
 	diskPersistent ：属性指定缓存是否被持久化到硬盘中，
 	保存路径由<diskStore>标签指定。 -->
+	
+	
+  

@@ -13,6 +13,7 @@
         <property name="cacheManager" ref="springCacheManager"/>
     </bean>
 
+
     <!-- 凭证匹配器 -->
     <bean id="credentialsMatcher" class="com.github.zhangkaitao.shiro.chapter19.credentials.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="cacheManager"/>

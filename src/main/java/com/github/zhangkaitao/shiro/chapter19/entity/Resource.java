@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -65,7 +66,8 @@ public class Resource extends BaseEntity {
 	
 	private Boolean available = Boolean.TRUE;
 
-	@OneToMany(mappedBy="parent")
+	@OneToMany(mappedBy="parent",fetch=FetchType.LAZY)
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	private List<Resource> childs = new ArrayList<>();
 	
 	public List<Resource> getChilds() {

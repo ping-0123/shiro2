@@ -40,6 +40,7 @@ public class UserTest {
 	@Autowired private RetryLimitHashedCredentialsMatcher credentialMatcher;
 	@Autowired private UserRealm userRealm;
 	
+	
 	@Test
 	public void testUserRealmAware(){
 		logger.info(credentialMatcher.getClass());

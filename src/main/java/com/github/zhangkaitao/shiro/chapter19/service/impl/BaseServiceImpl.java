@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.Assert;
 
 import com.github.zhangkaitao.shiro.chapter19.dao.BaseDao;
@@ -41,7 +43,9 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 	public void saveOrUpdate(T entity) {
 		baseDao.saveOrUpdate(entity);
 	}
+	
 	@Override
+//	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public List<T> findAll(){
 		return baseDao.findAll();
 	}
