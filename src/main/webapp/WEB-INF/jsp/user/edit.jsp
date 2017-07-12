@@ -38,7 +38,7 @@
         <div class="form-group">
             <form:label path="organization.id">所属组织：</form:label>
             <form:hidden path="organization.id"/>
-            <input type="text" id="organizationName" name="organization.name" value="${user.organization.name}" readonly>
+            <input type="text" id="organizationName" name="organizationName" value="${user.organization.name}" readonly>
             <a id="menuBtn" href="#">选择</a>
         </div>
 
@@ -78,8 +78,8 @@
 
             var zNodes =[
                 <c:forEach items="${organizationList}" var="o">
-                    <c:if test="${not o.isRootNode()}">
-                        { id:"${o.id}", pId:"${o.parent.id}", name:"${o.name}"},
+                    <c:if test="${not o.rootNode}">
+                        { id:${o.id}, pId:${o.parent.id}, name:"${o.name}"},
                     </c:if>
                 </c:forEach>
             ];

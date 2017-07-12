@@ -33,14 +33,14 @@
     </thead>
     <tbody>
         <c:forEach items="${resourceList}" var="resource">
-            <tr data-tt-id='${resource.id}' <c:if test="${not resource.isRootNode()}">data-tt-parent-id='${resource.parent.id}'</c:if>>
+            <tr data-tt-id='${resource.id}' <c:if test="${not resource.rootNode}">data-tt-parent-id='${resource.parent.id}'</c:if>>
                 <td>${resource.name}</td>
                 <td>${resource.type.info}</td>
                 <td>${resource.url}</td>
-                <td>${resource.permission.name}</td>
+                <td>${resource.permission}</td>
                 <td>
                     <shiro:hasPermission name="resource:create">
-                        <c:if test="${resource.type ne 'BUTTON'}">
+                        <c:if test="${resource.type.info ne 'BUTTON'}">
                         <a href="${pageContext.request.contextPath}/resource/${resource.id}/appendChild">添加子节点</a>
                         </c:if>
                     </shiro:hasPermission>
@@ -48,7 +48,7 @@
                     <shiro:hasPermission name="resource:update">
                         <a href="${pageContext.request.contextPath}/resource/${resource.id}/update">修改</a>
                     </shiro:hasPermission>
-                    <c:if test="${not resource.isRootNode()}">
+                    <c:if test="${not resource.rootNode}">
 
                     <shiro:hasPermission name="resource:delete">
                         <a class="deleteBtn" href="#" data-id="${resource.id}">删除</a>

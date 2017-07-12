@@ -1,15 +1,17 @@
 package com.github.zhangkaitao.shiro.chapter19.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,16 +28,19 @@ public class Role extends BaseEntity {
 	@Column(length=128)
 	private String description;
 	
-	@Column(length=128)
-	private String resourceIds;
+	@ManyToMany
+	@JoinTable(name="sys_role_resource", 
+		joinColumns=@JoinColumn(name="role_id", foreignKey=@ForeignKey(name="fk_roleResource_role_id")), 
+		inverseJoinColumns=@JoinColumn(name="resource_id", foreignKey=@ForeignKey(name="fk_roleResource_resource_id")))
+	private List<Resource> resources = new ArrayList<>();
 	
 	private Boolean available=Boolean.TRUE;
 	
-	@ManyToMany
-	@JoinTable(name="sys_role_permission", 
-			joinColumns=@JoinColumn(name="role_id"),
-			inverseJoinColumns=@JoinColumn(name="permission_id"))
-	private List<Permission> pemissions = new ArrayList<>();
+//	@ManyToMany
+//	@JoinTable(name="sys_role_permission", 
+//			joinColumns=@JoinColumn(name="role_id"),
+//			inverseJoinColumns=@JoinColumn(name="permission_id"))
+//	private List<Permission> pemissions = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(name="sys_user_role",
@@ -49,12 +54,7 @@ public class Role extends BaseEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<Permission> getPemissions() {
-		return pemissions;
-	}
-	public void setPemissions(List<Permission> pemissions) {
-		this.pemissions = pemissions;
-	}
+	
 	public List<User> getUsers() {
 		return users;
 	}
@@ -62,43 +62,34 @@ public class Role extends BaseEntity {
 		this.users = users;
 	}
 	
-	  @Transient  
-	    public List<String> getPermissionsName(){  
-	        List<String> list=new ArrayList<String>();  
-	        List<Permission> perlist=getPemissions();  
-	        for (Permission per : perlist) {  
-	            list.add(per.getName());  
-	        }  
-	        return list;  
-	    }
-	  
-	public List<String> getResourceNames(){
-		List<String> resNames = new ArrayList<>();
-		if(this.pemissions.size()>0){
-			for (Permission per : pemissions) {
-				if(per.getResource() != null)
-					resNames.add(per.getResource().getName());
-			}
-		}
-		return resNames;
-	}
 	  
 	public String getDescription() {
 		return description;
 	}
-	public String getResourceIds() {
-		return resourceIds;
-	}
+
 	public Boolean getAvailable() {
 		return available;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public void setResourceIds(String resourceIds) {
-		this.resourceIds = resourceIds;
-	}
+
 	public void setAvailable(Boolean available) {
 		this.available = available;
+	}
+	public List<Resource> getResources() {
+		return resources;
+	}
+	public void setResources(List<Resource> resources) {
+		this.resources = resources;
+	}
+	
+	public Set<? extends String> getPermissions() {
+		Set<String> permissions = new HashSet<>();
+		if(resources !=null && resources.size()> 0)
+			for (Resource resource : resources) {
+				permissions.add(resource.getPermission());
+			}
+		return permissions;
 	}  
 }

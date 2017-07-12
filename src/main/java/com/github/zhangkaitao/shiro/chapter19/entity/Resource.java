@@ -46,23 +46,27 @@ public class Resource extends BaseEntity {
 	@Column(length=32)
 	private String name;
 	
+	@Column(length=128)
+	private String code;
+	
 	@Column(length=32)
 	@Enumerated(EnumType.STRING)
 	private ResourceType type;
 	
-	@Column(length=32)
+	@Column(length=255)
 	private String url;
 	
 	@ManyToOne
 	@JoinColumn(foreignKey=@ForeignKey(name="fk_resource_parent_id"))
 	private Resource parent;
 	
-	@Column(length=32, name="parent_ids")
+	@Column(length=255, name="parent_ids")
 	private String parentIds;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(foreignKey=@ForeignKey(name="fk_resource_permission_id"))
-	private Permission permission;
+//	@OneToOne(cascade=CascadeType.ALL)
+//	@JoinColumn(foreignKey=@ForeignKey(name="fk_resource_permission_id"))
+	@Column(length=64)
+	private String permission;
 	
 	private Boolean available = Boolean.TRUE;
 
@@ -75,7 +79,7 @@ public class Resource extends BaseEntity {
 	}
 
 	public Resource(){}
-	public Resource(String name, ResourceType type, Resource parent, Permission permission){
+	public Resource(String name, ResourceType type, Resource parent, String permission){
 		this.name= name;
 		this.type = type;
 		this.parent = parent;
@@ -120,7 +124,7 @@ public class Resource extends BaseEntity {
 		return parentIds;
 	}
 
-	public Permission getPermission() {
+	public String getPermission() {
 		return permission;
 	}
 
@@ -148,7 +152,7 @@ public class Resource extends BaseEntity {
 		this.parentIds = parentIds;
 	}
 
-	public void setPermission(Permission permission) {
+	public void setPermission(String permission) {
 		this.permission = permission;
 	}
 
@@ -157,7 +161,7 @@ public class Resource extends BaseEntity {
 	}
 	
 	public String getPermissionName(){
-		return permission==null ? null: permission.getName();
+		return  permission;
 	}
 	
 	  public boolean isRootNode() {

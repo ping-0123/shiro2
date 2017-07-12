@@ -11,7 +11,7 @@
     <form:form id="form" method="post" commandName="child">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
-        <form:hidden path="parent.id"/>
+        <form:hidden path="parentId"/>
         <form:hidden path="parentIds"/>
 
         <div class="form-group">

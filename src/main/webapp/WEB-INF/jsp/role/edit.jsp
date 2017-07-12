@@ -19,8 +19,8 @@
         <form:hidden path="available"/>
 
         <div class="form-group">
-            <form:label path="name">角色名：</form:label>
-            <form:input path="name"/>
+            <form:label path="role">角色名：</form:label>
+            <form:input path="role"/>
         </div>
 
         <div class="form-group">
@@ -69,9 +69,9 @@
 
             var zNodes =[
                 <c:forEach items="${resourceList}" var="r">
-	                <c:if test="${not r.isRootNode()}">
-	                	{id:"${r.id}", pId:"${r.parent.id}", name:"${r.name}", checked:${zhangfn:in(role.resourceIds, r.id)}},
-	                </c:if>
+                <c:if test="${not r.rootNode}">
+                { id:${r.id}, pId:${r.parentId}, name:"${r.name}", checked:${zhangfn:in(role.resourceIds, r.id)}},
+                </c:if>
                 </c:forEach>
             ];
 

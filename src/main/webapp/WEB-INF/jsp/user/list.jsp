@@ -31,8 +31,11 @@
             <tr>
                 <td>${user.username}</td>
                 <td>${user.organization.name}</td>
-               <!--  <td>${zhangfn:roleNames(user.roleIds)}</td> --> 
-               <td>${user.getRoleNames()}</td>
+                <td>
+                	<c:forEach items="${user.roles}" var="role">
+                		${role.name}&nbsp;
+                	</c:forEach>
+                </td>
                 <td>
                     <shiro:hasPermission name="user:update">
                         <a href="${pageContext.request.contextPath}/user/${user.id}/update">修改</a>

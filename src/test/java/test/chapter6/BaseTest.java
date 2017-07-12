@@ -9,13 +9,10 @@ import org.apache.shiro.util.ThreadContext;
 import org.junit.After;
 import org.junit.Before;
 
-import com.github.zhangkaitao.shiro.chapter19.entity.Permission;
 import com.github.zhangkaitao.shiro.chapter19.entity.Role;
 import com.github.zhangkaitao.shiro.chapter19.entity.User;
-import com.github.zhangkaitao.shiro.chapter19.service.PermissionService;
 import com.github.zhangkaitao.shiro.chapter19.service.RoleService;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;
-import com.github.zhangkaitao.shiro.chapter19.service.impl.PermissionServiceImpl;
 import com.github.zhangkaitao.shiro.chapter19.service.impl.RoleServiceImpl;
 import com.github.zhangkaitao.shiro.chapter19.service.impl.UserServiceImpl;
 
@@ -26,15 +23,11 @@ import com.github.zhangkaitao.shiro.chapter19.service.impl.UserServiceImpl;
  */
 public abstract class BaseTest {
 
-    protected PermissionService permissionService = new PermissionServiceImpl();
     protected RoleService roleService = new RoleServiceImpl();
     protected UserService userService = new UserServiceImpl();
 
     protected String password = "1234";
 
-    protected Permission p1;
-    protected Permission p2;
-    protected Permission p3;
     protected Role r1;
     protected Role r2;
     protected User u1;

@@ -1,16 +1,16 @@
 package com.github.zhangkaitao.shiro.chapter19.service;
 
-import com.github.zhangkaitao.shiro.chapter19.entity.UrlFilter;
-import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
-import org.apache.shiro.web.filter.mgt.NamedFilterList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
+import org.apache.shiro.web.filter.mgt.NamedFilterList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import com.github.zhangkaitao.shiro.chapter19.entity.UrlFilter;
 
 /**
  * <p>User: Zhang Kaitao

@@ -20,7 +20,6 @@ import com.github.zhangkaitao.shiro.chapter19.service.UserService;
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService{
 
 	@Autowired public void setDao(UserDao userDao){ super.setBaseDao(userDao);}
-//	@Autowired private RoleService roleService;
 	@Autowired private PasswordHelper passwordHelper;
 
 	@Override
@@ -30,24 +29,29 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 	
 	@Override
+//	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public Set<String> findRoles(String username) {
 		return findByUsername(username)!=null?findByUsername(username).getRoleNames():Collections.emptySet();
 	}
 
 	@Override
-	public Set<String> findPermissions(String username) {
-		User user = findByUsername(username);
+//	@Cacheable(value="service", keyGenerator="keyGenerator")
+	public Set<String> findPermissions(User user) {
 		if(user==null) return Collections.emptySet();
 		Set<String> permissionNames = new HashSet<>();
 		List<Role> roles = user.getRoles();
 		for (Role role : roles) {
-			permissionNames.addAll(role.getPermissionsName());
+			if(role.getName().equals("admin")){
+				permissionNames.add("*:*:*");
+				break;
+			}
+			permissionNames.addAll(role.getPermissions());
 		}
 		return permissionNames;
 	}
 
 	@Override
-	@Cacheable(value="service", key="#username")
+	@Cacheable(value="service", key="#username" /**keyGenerator="keyGenerator"*/)
 	public User findByUsername(String username) {
 		List<User> users = super.findByProperty("username", username);
 		return users.size()==0? null: users.get(0);

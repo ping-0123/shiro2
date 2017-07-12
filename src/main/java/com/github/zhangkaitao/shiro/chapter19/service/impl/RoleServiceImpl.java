@@ -12,4 +12,5 @@ import com.github.zhangkaitao.shiro.chapter19.service.RoleService;
 public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements RoleService{
 
 	@Autowired public void setDao(RoleDao dao){ super.setBaseDao(dao);}
+	
 }

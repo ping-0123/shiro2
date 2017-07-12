@@ -12,7 +12,7 @@
     <form:form id="form" method="post" commandName="organization">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
-        <form:hidden path="parent.id"/>
+        <form:hidden path="parentId"/>
         <form:hidden path="parentIds"/>
 
         <div class="form-group">
@@ -24,7 +24,7 @@
         </shiro:hasPermission>
 
         <shiro:hasPermission name="organization:delete">
-            <c:if test="${not organization.isRootNode()}">
+            <c:if test="${not organization.rootNode}">
             <form:button id="deleteBtn">删除</form:button>
             </c:if>
         </shiro:hasPermission>
@@ -34,7 +34,7 @@
         </shiro:hasPermission>
 
         <shiro:hasPermission name="organization:update">
-            <c:if test="${not organization.isRootNode()}">
+            <c:if test="${not organization.rootNode}">
             <form:button id="moveBtn">移动节点</form:button>
             </c:if>
         </shiro:hasPermission>

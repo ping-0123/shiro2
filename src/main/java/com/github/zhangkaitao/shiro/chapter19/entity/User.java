@@ -49,7 +49,7 @@ public class User extends BaseEntity{
 	private Organization organization;
 	
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="sys_user_role", 
 		joinColumns={@JoinColumn(name="user_id", foreignKey =@ForeignKey(name="fk_userRole_user_id"))},
 		inverseJoinColumns={@JoinColumn(name="role_id", foreignKey=@ForeignKey(name="fk_userRole_role_id"))})

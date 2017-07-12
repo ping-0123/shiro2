@@ -30,7 +30,11 @@
             <tr>
                 <td>${role.name}</td>
                 <td>${role.description}</td>
-                <td>${role.getResourceNames()}</td>
+                <td>
+                	<c:forEach items="${role.resources}" var="r">
+                		<li>r.name</li>
+                	</c:forEach>
+                </td>
                 <td>
                     <shiro:hasPermission name="role:update">
                         <a href="${pageContext.request.contextPath}/role/${role.id}/update">修改</a>
