@@ -2,7 +2,7 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
-    <title></title>
+    <title>unAuthorized</title>
 </head>
 <body>
 <shiro:principal/>没有授权。

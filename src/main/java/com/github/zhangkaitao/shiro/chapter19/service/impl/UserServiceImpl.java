@@ -47,6 +47,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Override
+	@Cacheable(value="service", key="#username")
 	public User findByUsername(String username) {
 		List<User> users = super.findByProperty("username", username);
 		return users.size()==0? null: users.get(0);
