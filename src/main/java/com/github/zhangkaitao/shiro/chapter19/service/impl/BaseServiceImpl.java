@@ -1,18 +1,10 @@
 package com.github.zhangkaitao.shiro.chapter19.service.impl;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
-
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.util.Assert;
 
 import com.github.zhangkaitao.shiro.chapter19.dao.BaseDao;
 import com.github.zhangkaitao.shiro.chapter19.entity.PageBean;
@@ -45,10 +37,26 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 	}
 	
 	@Override
+	public void modify(T source, T target) throws IllegalArgumentException, IllegalAccessException{
+		baseDao.modify(source, target);
+	}
+	
+	@Override
+	public void modify(PK id, T entity) throws DataNotFoundException, IllegalArgumentException, IllegalAccessException{
+		baseDao.modify(id, entity);
+	}
+	
+	@Override
 //	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public List<T> findAll(){
 		return baseDao.findAll();
 	}
+	
+	@Override
+	public int findCount(){
+		return baseDao.findCount();
+	}
+	
 	@Override
 	public List<T> findByProperty(String propertyName, Object value){
 		return baseDao.findByProperty(propertyName, value);
@@ -82,49 +90,6 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 		baseDao.update(entity);
 	}
 
-	@Override
-	public void modify(PK id, T entity) throws DataNotFoundException, IllegalArgumentException, IllegalAccessException{
-		long start = System.currentTimeMillis();
-		Assert.notNull(id);
-		if(entity== null)
-			return;
-		T newEntity = baseDao.get(id);
-		
-		entity.getClass().getSuperclass();
-		Field[] fields = entity.getClass().getDeclaredFields();
-		logger.info(fields.length);
-		boolean update_flag =false;
-		long afterReflect = System.currentTimeMillis();
-		logger.info("反射所花的时间: " + (afterReflect-start));
-		for (Field f : fields) {
-			f.setAccessible(true);
-			if(!Modifier.isStatic(f.getModifiers()) 
-					&&f.get(entity)!=null
-					&& f.getDeclaredAnnotation(Id.class) == null
-					&& f.getDeclaredAnnotation(OneToMany.class) == null
-					&& !f.get(entity).equals(f.get(newEntity)))
-			{
-				f.set(newEntity, f.get(entity));
-				logger.info(f.get(newEntity));
-				update_flag = true;
-			}
-		}
-		long afterCompare=System.currentTimeMillis();
-		logger.info("对比所化时间: " + (afterCompare-afterReflect));
-		if(update_flag){
-			logger.info("开始更新");
-			baseDao.update(newEntity);
-		}
-		
-		long end = System.currentTimeMillis();
-		logger.info("更新所花时间: " + (end-afterCompare));
-		logger.info("所花总时间： " + (end-start));
-	}
-	
-	@Override
-	public PageBean<T> findPage(T entity, int pageNum, int pageSize){
-		return null;
-	}
 
 	@Override
 	public int findCountByProperties(String[] propertyNames, Object[] values){
@@ -132,4 +97,18 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 	}
 	
 	
+	@Override
+	public PageBean<T> findPageOfAll(int pageNo, int pageSize){
+		return baseDao.findPageOfAll(pageNo, pageSize);
+	}
+	
+	@Override
+	public PageBean<T> findPageByProperties(String[] propertyNames, Object[] values, int pageNo, int pageSize){
+		return baseDao.findPageByProperties(propertyNames, values, pageNo, pageSize);
+	}
+	
+	@Override
+	public PageBean<T> findPageByProperty(String propertyName, Object value, int pageNo, int pageSize){
+		return baseDao.findPageByProperty(propertyName, value, pageNo, pageSize);
+	}
 }

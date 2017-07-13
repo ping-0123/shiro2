@@ -7,6 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.zhangkaitao.shiro.application.UserContext;
 import com.github.zhangkaitao.shiro.chapter19.Constants;
 import com.github.zhangkaitao.shiro.chapter19.entity.User;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;
@@ -30,6 +31,7 @@ public class SysUserFilter extends PathMatchingFilter {
         	user = userService.findByUsername(username);
         }
         request.setAttribute(Constants.CURRENT_USER, user);
+        UserContext.setUser(user);
         return true;
     }
 }

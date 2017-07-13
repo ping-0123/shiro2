@@ -12,7 +12,8 @@ import javax.persistence.MappedSuperclass;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;  
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zhangkaitao.shiro.application.UserContext;  
   
 /**
  * name rule
@@ -29,32 +30,22 @@ public abstract class BaseEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	/** 
-     * ID 
-     */  
 	
 	@Id  
     @Column(nullable = false)  
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;  
-    /** 
-     * �������� 
-     */  
-	@Column(name="create_user_id")
-    private Integer createUserId;
-    
+
+	@Column(name="create_user_id", updatable=false)
+    private Long createUserId;
     
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
     @Column(updatable = false, name="create_timestamp")  
     private Date createDate;  
-    /** 
-     * �޸����� 
-     */  
-    
+
     @Column(name="last_modified_user_id")
-    private Integer lastModifiedUserId;
-    
+    private Long lastModifiedUserId;
     
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") 
@@ -67,14 +58,26 @@ public abstract class BaseEntity implements Serializable{
 
 
 	public void init() {
+		Long userId = 1L;
+		if(UserContext.getUser() != null){
+			userId= UserContext.getUser().getId();
+		}
 		Date date = new Date();
     	this.createDate = date;
     	this.lastModifiedDate=date;
-    	this.createUserId=1;
-    	this.lastModifiedUserId=1;
+    	this.createUserId=userId;
+    	this.lastModifiedUserId=userId;
 	}
 
-
+	public void beforeUpdate(){
+		Long userId = 1L;
+		if(UserContext.getUser() != null){
+			userId= UserContext.getUser().getId();
+		}
+		this.lastModifiedDate = new Date();
+		this.lastModifiedUserId = userId;
+	}
+	
     public Long getId() {  
         return id;  
     }  
@@ -129,19 +132,19 @@ public abstract class BaseEntity implements Serializable{
         return true;  
     }
 
-	public  Integer getCreateUserId() {
+	public  Long getCreateUserId() {
 		return createUserId;
 	}
 
-	public  void setCreateUserId(int createUserId) {
+	public  void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
 	}
 
-	public  Integer getLastModifiedUserId() {
+	public  Long getLastModifiedUserId() {
 		return lastModifiedUserId;
 	}
 
-	public  void setLastModifiedUserId(int moddifiedUserId) {
+	public  void setLastModifiedUserId(Long moddifiedUserId) {
 		this.lastModifiedUserId = moddifiedUserId;
 	}
 

@@ -15,12 +15,12 @@
 <body>
 
     <form:form method="post" commandName="role">
-        <form:hidden path="id"/>
+        <!--<form:hidden path="id"/> -->
         <form:hidden path="available"/>
 
         <div class="form-group">
-            <form:label path="role">角色名：</form:label>
-            <form:input path="role"/>
+            <form:label path="name">角色名：</form:label>
+            <form:input path="name"/>
         </div>
 
         <div class="form-group">
@@ -30,9 +30,9 @@
 
 
         <div class="form-group">
-            <form:label path="resourceIds">拥有的资源列表：</form:label>
-            <form:hidden path="resourceIds"/>
-            <input type="text" id="resourceName" name="resourceName" value="${zhangfn:resourceNames(role.resourceIds)}" readonly>
+            <form:label path="resources">拥有的资源列表：</form:label>
+            <form:hidden path="resources"/>
+            <input type="text" id="resourceName" name="resourceName" value="${zhangfn:resourceNames(role.resources)}" readonly>
             <a id="menuBtn" href="#">选择</a>
         </div>
 
@@ -70,7 +70,7 @@
             var zNodes =[
                 <c:forEach items="${resourceList}" var="r">
                 <c:if test="${not r.rootNode}">
-                { id:${r.id}, pId:${r.parentId}, name:"${r.name}", checked:${zhangfn:in(role.resourceIds, r.id)}},
+                { id:${r.id}, pId:${r.parent.id}, name:"${r.name}", checked:${zhangfn:in(role.resources, r.id)}},
                 </c:if>
                 </c:forEach>
             ];

@@ -9,10 +9,10 @@
 <body>
 
     <form:form id="form" method="post" commandName="child">
-        <form:hidden path="id"/>
+        <!--<form:hidden path="id"/>-->
         <form:hidden path="available"/>
-        <form:hidden path="parentId"/>
-        <form:hidden path="parentIds"/>
+        <form:hidden path="parent.id"/>
+        <!--<form:hidden path="parentIds"/>-->
 
         <div class="form-group">
             <label>父节点名称：</label>

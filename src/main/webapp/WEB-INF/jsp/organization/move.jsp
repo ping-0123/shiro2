@@ -52,7 +52,7 @@
 
             var zNodes =[
                 <c:forEach items="${targetList}" var="o">
-                { id:${o.id}, pId:${o.parentId}, name:"${o.name}", open:${o.rootNode}},
+                { id:"${o.id}", pId:"${o.parent.id}", name:"${o.name}", open:"${o.isRootNode()}"},
                 </c:forEach>
             ];
 

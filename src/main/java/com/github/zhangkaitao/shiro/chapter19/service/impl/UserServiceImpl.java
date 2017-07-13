@@ -59,7 +59,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 
 	@Override
 	public void changePassword(Long id, String newPassword) {
-	      User user =get(id);
+	      User user =super.get(id);
 	      user.setPassword(newPassword);
 	      passwordHelper.encryptPassword(user);
 	      update(user);

@@ -61,7 +61,12 @@ public class OrganizationController {
 
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String update(Organization organization, RedirectAttributes redirectAttributes) {
-        organizationService.update(organization);
+//        organizationService.update(organization);
+    	try{
+    		organizationService.modify(organization.getId(), organization);
+    	}catch (Exception e) {
+    		e.printStackTrace();
+		}
         redirectAttributes.addFlashAttribute("msg", "修改成功");
         return "redirect:/organization/success";
     }

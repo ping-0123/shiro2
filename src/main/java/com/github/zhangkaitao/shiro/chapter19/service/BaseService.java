@@ -3,19 +3,17 @@ package com.github.zhangkaitao.shiro.chapter19.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.cache.annotation.Cacheable;
-
 import com.github.zhangkaitao.shiro.chapter19.entity.PageBean;
 import com.github.zhangkaitao.shiro.chapter19.exception.DataNotFoundException;
 
 
 public interface BaseService<T, PK extends Serializable> {
 	
-	public PK save(T entity);
-	public void delete(T entit);
-	public void delete(PK id);
+	public T 	get(PK id);
+	public PK 	save(T entity);
 	public void update(T entity);
 	public void saveOrUpdate(T entity);
+	public void modify(T source, T target) throws IllegalArgumentException, IllegalAccessException;
 	/**
 	 * 通过dao.get(id)从数据库中取出一个新实体newEntity, 将newEntity中的属性值
 	 * 设置为entity对应的值(entity中某一属性为null, 则newEntity中相应属性值不变)
@@ -31,14 +29,19 @@ public interface BaseService<T, PK extends Serializable> {
 	 * 
 	 */
 	public void modify(PK id, T entity) throws DataNotFoundException, IllegalArgumentException, IllegalAccessException;
-	public T get(PK id);
-	public List<T> findAll() ;
+	public void delete(T entit);
+	public void delete(PK id);
+
+	public List<T> findAll();
+	public int 		findCount();
 	public List<T> findByProperty(String propertyName, Object value) ;
-	public int findCountByProperty(String propertyName, Object value);
-	public int findCountByProperties(String[] propertyNames, Object[] values) ;
+	public int 	   findCountByProperty(String propertyName, Object value);
+	public int 	   findCountByProperties(String[] propertyNames, Object[] values) ;
 	public List<T> findByProperties(String[] propertyNames, Object[] values);
 	public List<T> findByExample(T entity);
 
+	public PageBean<T> findPageOfAll(int pageNo, int pageSize);
+	public PageBean<T> findPageByProperties(String[] propertyNames, Object[] values, int pageNo, int pageSize);
+	public PageBean<T> findPageByProperty(String propertyName, Object value, int pageNo, int pageSize);
 
-	public PageBean<T> findPage(T entity, int pageNum, int pageSize);
 }

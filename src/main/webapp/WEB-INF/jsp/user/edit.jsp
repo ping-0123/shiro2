@@ -15,11 +15,11 @@
 <body>
 
     <form:form method="post" commandName="user">
-        <form:hidden path="id"/>
-        <form:hidden path="salt"/>
-        <form:hidden path="locked"/>
 
         <c:if test="${op ne '新增'}">
+	        <form:hidden path="id"/>
+	        <form:hidden path="salt"/>
+	        <form:hidden path="locked"/>
             <form:hidden path="password"/>
         </c:if>
 
@@ -44,8 +44,8 @@
 
 
         <div class="form-group">
-            <form:label path="roleIds">角色列表：</form:label>
-            <form:select path="roleIds" items="${roleList}" itemLabel="description" itemValue="id" multiple="true"/>
+            <form:label path="roles">角色列表：</form:label>
+            <form:select path="roles" items="${roleList}" itemLabel="description" itemValue="id" multiple="true"/>
             (按住shift键多选)
         </div>
 
@@ -78,8 +78,8 @@
 
             var zNodes =[
                 <c:forEach items="${organizationList}" var="o">
-                    <c:if test="${not o.rootNode}">
-                        { id:${o.id}, pId:${o.parent.id}, name:"${o.name}"},
+                    <c:if test="${not o.isRootNode()}">
+                        { id:"${o.id}", pId:"${o.parent.id}", name:"${o.name}"},
                     </c:if>
                 </c:forEach>
             ];
@@ -96,7 +96,7 @@
                 }
                 if (id.length > 0 ) id = id.substring(0, id.length-1);
                 if (name.length > 0 ) name = name.substring(0, name.length-1);
-                $("#organizationId").val(id);
+                $("#organization.id").val(id);
                 $("#organizationName").val(name);
                 hideMenu();
             }

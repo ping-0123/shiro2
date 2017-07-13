@@ -27,7 +27,7 @@
 
         var zNodes =[
             <c:forEach items="${organizationList}" var="o">
-                { id:${o.id}, pId:${o.parent.id}, name:"${o.name}", open:${o.rootNode}},
+                { id:"${o.id}", pId:"${o.parent.id}", name:"${o.name}", open:"true"},
             </c:forEach>
         ];
 

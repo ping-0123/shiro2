@@ -1,13 +1,22 @@
 package com.github.zhangkaitao.shiro.chapter19.dao.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +28,8 @@ import org.springframework.util.StringUtils;
 import com.github.zhangkaitao.shiro.chapter19.dao.BaseDao;
 import com.github.zhangkaitao.shiro.chapter19.entity.BaseEntity;
 import com.github.zhangkaitao.shiro.chapter19.entity.PageBean;
+import com.github.zhangkaitao.shiro.chapter19.exception.DataNotFoundException;
+import com.github.zhangkaitao.shiro.common.ReflectUtil;
 
 
 
@@ -113,6 +124,14 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 	public void saveOrUpdate(T entity) {
 		Assert.notNull(entity, "entity is required");
 		try {
+			// 更新或者保存前初始化baseEntity属性值
+			if(entity instanceof BaseEntity){
+				if(((BaseEntity) entity).getId() == null){
+					((BaseEntity) entity).init();
+				}else {
+					((BaseEntity) entity).beforeUpdate();
+				}
+			}
 			getHibernateTemplate().saveOrUpdate(entity);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -158,10 +177,7 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 		Assert.notNull(entity, "entity is required");
 		try{
 			if(entity instanceof BaseEntity){
-				BaseEntity baseEntity = (BaseEntity) entity;
-				baseEntity.setLastModifiedDate(new Date());
-				getHibernateTemplate().update(baseEntity);
-				return;
+				((BaseEntity) entity).beforeUpdate();
 			}
 			getHibernateTemplate().update(entity);
 		}catch (Exception e) {
@@ -281,5 +297,113 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 			return _get_root_Exception(next);
 	}
 	
+	
+	@Override
+	public void modify(T source, T target) throws IllegalArgumentException, IllegalAccessException{
+		Assert.notNull(source);
+		Assert.notNull(target);
+		
+		Field[] fields = ReflectUtil.getAllFields(source.getClass());
+		for (Field f : fields) {
+			f.setAccessible(true);
+			if(	//静态属性不变
+				!Modifier.isStatic(f.getModifiers()) 
+				// target属性为null ,source 对应的属性不变
+				&&f.get(target)!=null
+				//Id 主键不改变
+				&& f.getDeclaredAnnotation(Id.class) == null
+				//排除OneToMany 映射
+				&& f.getDeclaredAnnotation(OneToMany.class) == null
+				//属性值相同不就需要修改了
+				&& !(f.get(target).equals(f.get(source))))
+				
+				f.set(source, f.get(target));
+		}
+		
+		update(source);
+	}
+	
+	@Override
+	public void modify(PK id, T target) throws DataNotFoundException, IllegalArgumentException, IllegalAccessException{
+		Assert.notNull(id);
+		Assert.notNull(target);
+		
+		T source = get(id);
+		modify(source, target);
+	}
+	
+	@Override
+	public <R> PageBean<R> findPageByCriteria(CriteriaQuery<R> criteria, int pageNo, int pageSize, int totalSize){
+		if(pageNo<=0) pageNo = 1;
+		if(pageSize<=0) pageSize = PageBean.DEFAULT_PAGE_SIZE;
+		Query<R> query = getSession().createQuery(criteria);
+		query.setFirstResult(((pageNo-1) * pageSize));
+		query.setMaxResults(pageSize);
+		List<R> list = query.getResultList();
+		
+		return new PageBean<>(pageSize, pageNo,totalSize,list);
+	}
+
+	@Override
+	public PageBean<T> findPageOfAll(int pageNo, int pageSize){
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<T> criteria = builder.createQuery(entityClass);
+		Root<T> root = criteria.from(entityClass);
+		criteria.select(root);
+		int totalSize = findCount();
+		return findPageByCriteria(criteria, pageNo, pageSize, totalSize);
+	}
+	
+	@Override
+	public PageBean<T> findPageByProperties(String[] propertyNames, Object[] values, int pageNo, int pageSize){
+		if(propertyNames.length != values.length){
+			throw new IllegalArgumentException("传入的属性名和属性值数量不一致");
+		}
+		if(Arrays.asList(propertyNames).contains(null)) throw new IllegalArgumentException("属性名不可能为null");
+		
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<T> criteria = builder.createQuery(entityClass);
+		Root<T> root = criteria.from(entityClass);
+		criteria.select(root);
+		Predicate predicate = null;
+		for(int i=0; i< propertyNames.length; i++){
+			Predicate condition = builder.equal(_getPath(root, propertyNames[i]), values[i]);
+			predicate =(predicate == null)?condition:builder.and(predicate,condition);
+		}
+		criteria.where(predicate);
+		
+		//查询数量
+//		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+//		countCriteria.from(entityClass);
+//		countCriteria.select(builder.count(root));
+//		countCriteria.where(predicate);
+//		Long totalSize = getSession().createQuery(countCriteria).getSingleResult();
+		int totalSize = findCountByProperties(propertyNames, values);
+		
+		return  findPageByCriteria(criteria, pageNo, pageSize, totalSize);
+	}
+	
+	@Override
+	public PageBean<T> findPageByProperty(String propertyName, Object value, int pageNo, int pageSize){
+		if(!StringUtils.hasLength(propertyName)) throw new IllegalArgumentException("propertyName 不能为空" );
+		String[] properties = new String[]{propertyName};
+		Object[] values = new Object[]{value};
+		return findPageByProperties(properties, values, pageNo, pageSize);
+	}
+	
+	private <X> Path<?> _getPath(Path<X> path, String propertyName){
+		Path<?> result;
+		if(propertyName.contains(".")){
+			String[] properties = propertyName.split("\\.");
+			result = path.get(properties[0]);
+			for(int i=1;i<properties.length; i++){
+				result=result.get(properties[i]);
+			}
+		}else {
+			result = path.get(propertyName);
+		}
+		return result;
+	}
+
 }
 
