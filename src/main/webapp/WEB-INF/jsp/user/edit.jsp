@@ -37,7 +37,7 @@
 
         <div class="form-group">
             <form:label path="organization.id">所属组织：</form:label>
-            <form:hidden path="organization.id"/>
+            <form:hidden id="organizationId"  path="organization.id"/>
             <input type="text" id="organizationName" name="organizationName" value="${user.organization.name}" readonly>
             <a id="menuBtn" href="#">选择</a>
         </div>
@@ -96,7 +96,7 @@
                 }
                 if (id.length > 0 ) id = id.substring(0, id.length-1);
                 if (name.length > 0 ) name = name.substring(0, name.length-1);
-                $("#organization.id").val(id);
+                $("#organizationId").val(treeNode.id);
                 $("#organizationName").val(name);
                 hideMenu();
             }

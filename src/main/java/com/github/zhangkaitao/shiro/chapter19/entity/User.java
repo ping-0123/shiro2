@@ -39,9 +39,6 @@ public class User extends BaseEntity{
 	@Column(length=128)
 	private String salt;
 	
-	@Column(length=128, name="role_ids")
-	private String roleIds;
-	
 	private Boolean locked=Boolean.FALSE;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST})
@@ -98,10 +95,6 @@ public class User extends BaseEntity{
 
 
 
-	public String getRoleIds() {
-		return roleIds;
-	}
-
 
 
 	public Boolean getLocked() {
@@ -137,13 +130,6 @@ public class User extends BaseEntity{
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-
-
-
-	public void setRoleIdds(String role_ids) {
-		this.roleIds = role_ids;
-	}
-
 
 
 	public void setLocked(Boolean locked) {
