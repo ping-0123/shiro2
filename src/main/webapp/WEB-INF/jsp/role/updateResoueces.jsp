@@ -52,8 +52,8 @@
             var setting = {
                 check: {
                     enable: true ,
-                    chkboxType: { "Y": "ps", "N": "ps" }
-                },	
+                    chkboxType: { "Y": "", "N": "" }
+                },
                 view: {
                     dblClickExpand: false
                 },
@@ -69,8 +69,8 @@
 
             var zNodes =[
                 <c:forEach items="${resourceList}" var="r">
-                <c:if test="${not r.isRootNode()}">
-                { id:"${r.id}", pId:"${r.parent.id}", name:"${r.name}", checked:"${zhangfn:in(role.resources, r)}"},
+                <c:if test="${not r.rootNode}">
+                { id:${r.id}, pId:${r.parent.id}, name:"${r.name}", checked:${zhangfn:in(role.resources, r.id)}},
                 </c:if>
                 </c:forEach>
             ];

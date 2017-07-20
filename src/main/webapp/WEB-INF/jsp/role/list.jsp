@@ -21,7 +21,6 @@
         <tr>
             <th>角色名称</th>
             <th>角色描述</th>
-            <th>拥有的资源</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -29,17 +28,15 @@
         <c:forEach items="${roleList}" var="role">
             <tr>
                 <td>${role.name}</td>
+                
                 <td>${role.description}</td>
-                <td>
-                	<c:forEach items="${role.resources}" var="r">
-                		<li>r.name</li>
-                	</c:forEach>
-                </td>
                 <td>
                     <shiro:hasPermission name="role:update">
                         <a href="${pageContext.request.contextPath}/role/${role.id}/update">修改</a>
                     </shiro:hasPermission>
-
+					<shiro:hasPermission name="role:updateResources">
+						 <a href="${pageContext.request.contextPath}/role/${role.id}/updateResources">分配资源</a>
+					</shiro:hasPermission>
                     <shiro:hasPermission name="role:delete">
                         <a href="${pageContext.request.contextPath}/role/${role.id}/delete">删除</a>
                     </shiro:hasPermission>

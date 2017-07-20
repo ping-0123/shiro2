@@ -1,5 +1,9 @@
 package com.github.zhangkaitao.shiro.chapter19.web.taglib;
 
+import java.util.Collection;
+
+import org.springframework.util.CollectionUtils;
+
 import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
 import com.github.zhangkaitao.shiro.chapter19.entity.Resource;
 import com.github.zhangkaitao.shiro.chapter19.entity.Role;
@@ -7,9 +11,6 @@ import com.github.zhangkaitao.shiro.chapter19.service.OrganizationService;
 import com.github.zhangkaitao.shiro.chapter19.service.ResourceService;
 import com.github.zhangkaitao.shiro.chapter19.service.RoleService;
 import com.github.zhangkaitao.shiro.spring.SpringUtils;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Collection;
 
 /**
  * <p>User: Zhang Kaitao
@@ -90,27 +91,42 @@ public class Functions {
         }
         return resource.getName();
     }
-    public static String resourceNames(Collection<Long> resourceIds) {
-        if(CollectionUtils.isEmpty(resourceIds)) {
+    public static String resourceNames(Collection<Resource> resouces){
+        if(CollectionUtils.isEmpty(resouces)) {
             return "";
         }
-
         StringBuilder s = new StringBuilder();
-        for(Long resourceId : resourceIds) {
-            Resource resource = getResourceService().get(resourceId);
-            if(resource == null) {
-                return "";
-            }
-            s.append(resource.getName());
-            s.append(",");
-        }
-
+        for (Resource resource : resouces) {
+    	   s.append(resource.getName());
+           s.append(",");
+		}
         if(s.length() > 0) {
             s.deleteCharAt(s.length() - 1);
         }
-
         return s.toString();
     }
+    
+//    public static String resourceNames(Collection<Long> resourceIds) {
+//        if(CollectionUtils.isEmpty(resourceIds)) {
+//            return "";
+//        }
+//
+//        StringBuilder s = new StringBuilder();
+//        for(Long resourceId : resourceIds) {
+//            Resource resource = getResourceService().get(resourceId);
+//            if(resource == null) {
+//                return "";
+//            }
+//            s.append(resource.getName());
+//            s.append(",");
+//        }
+//
+//        if(s.length() > 0) {
+//            s.deleteCharAt(s.length() - 1);
+//        }
+//
+//        return s.toString();
+//    }
 
     private static OrganizationService organizationService;
     private static RoleService roleService;

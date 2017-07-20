@@ -67,7 +67,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 	
 	@Override
-	@Cacheable(value="service", keyGenerator="keyGenerator")
+//	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public List<User> findAll(){
 		return super.findAll();
 	}
