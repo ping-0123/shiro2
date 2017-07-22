@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController {
 
     @Autowired
     private RoleService roleService;
@@ -42,6 +42,7 @@ public class RoleController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Role role, RedirectAttributes redirectAttributes) {
+    	logger.error(role.getResources());
         roleService.save(role);
         redirectAttributes.addFlashAttribute("msg", "新增成功");
         return "redirect:/role";

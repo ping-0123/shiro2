@@ -59,7 +59,7 @@ public class UserTest {
 	
 //	@Transactional
 	@Test
-	public void newUser(){
+	public void firstUser(){
 		User user = new User("admin", "admin");
 		// set roles
 		Role role = new Role();
@@ -73,9 +73,6 @@ public class UserTest {
 		user.setOrganization(organization);
 		userService.save(user);
 		
-//		userService.save(user2);
-//		userService.save(user3);
-//		userService.save(user4);
 		
 	}
 	

@@ -19,7 +19,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>角色名称</th>
+            <th>角色名</th>
             <th>角色描述</th>
             <th>操作</th>
         </tr>
@@ -31,15 +31,14 @@
                 
                 <td>${role.description}</td>
                 <td>
-                    <shiro:hasPermission name="role:update">
-                        <a href="${pageContext.request.contextPath}/role/${role.id}/update">修改</a>
-                    </shiro:hasPermission>
-					<shiro:hasPermission name="role:updateResources">
-						 <a href="${pageContext.request.contextPath}/role/${role.id}/updateResources">分配资源</a>
-					</shiro:hasPermission>
-                    <shiro:hasPermission name="role:delete">
-                        <a href="${pageContext.request.contextPath}/role/${role.id}/delete">删除</a>
-                    </shiro:hasPermission>
+                	<c:if test="${role.name ne 'Admin'}">
+	                    <shiro:hasPermission name="role:update">
+	                        <a href="${pageContext.request.contextPath}/role/${role.id}/update">修改</a>
+	                    </shiro:hasPermission>
+	                    <shiro:hasPermission name="role:delete">
+	                        <a href="${pageContext.request.contextPath}/role/${role.id}/delete">删除</a>
+	                    </shiro:hasPermission>
+	                 </c:if>
                 </td>
             </tr>
         </c:forEach>

@@ -33,7 +33,7 @@
     </thead>
     <tbody>
         <c:forEach items="${resourceList}" var="resource">
-            <tr data-tt-id='${resource.id}' <c:if test="${not resource.rootNode}">data-tt-parent-id='${resource.parent.id}'</c:if>>
+            <tr data-tt-id='${resource.id}' <c:if test="${not resource.isRootNode()}">data-tt-parent-id='${resource.parent.id}'</c:if>>
                 <td>${resource.name}</td>
                 <td>${resource.type.info}</td>
                 <td>${resource.url}</td>

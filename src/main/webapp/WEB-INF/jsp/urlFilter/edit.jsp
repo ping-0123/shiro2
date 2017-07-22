@@ -15,7 +15,9 @@
 <body>
 
     <form:form method="post" commandName="urlFilter">
-        <form:hidden path="id"/>
+    	<c:if test="${op ne '新增' }">
+        	<form:hidden path="id"/>
+        </c:if>
 
         <div class="form-group">
             <form:label path="name">名称：</form:label>

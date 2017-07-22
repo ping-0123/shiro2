@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -28,10 +30,11 @@ public class Role extends BaseEntity {
 	@Column(length=128)
 	private String description;
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	@JoinTable(name="sys_role_resource", 
 		joinColumns=@JoinColumn(name="role_id", foreignKey=@ForeignKey(name="fk_roleResource_role_id")), 
 		inverseJoinColumns=@JoinColumn(name="resource_id", foreignKey=@ForeignKey(name="fk_roleResource_resource_id")))
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	private List<Resource> resources = new ArrayList<>();
 	
 	private Boolean available=Boolean.TRUE;

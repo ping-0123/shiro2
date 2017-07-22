@@ -9,10 +9,11 @@
 <body>
 
     <form:form method="post" commandName="resource">
-        <form:hidden path="id"/>
+    	<c:if test="${op != '新增子节点' }">
+        	<form:hidden path="id"/>
+        </c:if>
         <form:hidden path="available"/>
-        <form:hidden path="parentId"/>
-        <form:hidden path="parentIds"/>
+        <form:hidden path="parent.id"/>
 
         <c:if test="${not empty parent}">
             <div class="form-group">

@@ -59,10 +59,7 @@ public class Resource extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(foreignKey=@ForeignKey(name="fk_resource_parent_id"))
 	private Resource parent;
-	
-	@Column(length=255, name="parent_ids")
-	private String parentIds;
-	
+		
 //	@OneToOne(cascade=CascadeType.ALL)
 //	@JoinColumn(foreignKey=@ForeignKey(name="fk_resource_permission_id"))
 	@Column(length=64)
@@ -120,9 +117,6 @@ public class Resource extends BaseEntity {
 		return parent;
 	}
 
-	public String getParentIds() {
-		return parentIds;
-	}
 
 	public String getPermission() {
 		return permission;
@@ -148,9 +142,6 @@ public class Resource extends BaseEntity {
 		this.parent = parent;
 	}
 
-	public void setParentIds(String parentIds) {
-		this.parentIds = parentIds;
-	}
 
 	public void setPermission(String permission) {
 		this.permission = permission;

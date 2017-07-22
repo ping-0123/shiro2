@@ -8,19 +8,6 @@
 
     <display-name>shiro-example-chapter17</display-name>
     
-    <!-- 延迟加载过滤器 -->
-	<filter>  
-		<filter-name>openSessionInViewFilter</filter-name> 
-		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class> 
-		<!--  <param-name>flushMode</param-name>   
-        <param-value>AUTO</param-value>   -->
-	</filter> 
-	<filter-mapping> 
-		<filter-name>openSessionInViewFilter</filter-name> 
-		<url-pattern>/*</url-pattern> 
-	</filter-mapping>   
-    
-
     <!-- Spring配置文件开始  -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -57,6 +44,18 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <!-- 设置servlet编码结束 -->
+
+	  <!-- 延迟加载过滤器 -->
+	<filter>  
+		<filter-name>openSessionInViewFilter</filter-name> 
+		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class> 
+		<!--  <param-name>flushMode</param-name>   
+        <param-value>AUTO</param-value>   -->
+	</filter> 
+	<filter-mapping> 
+		<filter-name>openSessionInViewFilter</filter-name> 
+		<url-pattern>/*</url-pattern> 
+	</filter-mapping>   
 
     <!-- shiro 安全过滤器 -->
     <filter>

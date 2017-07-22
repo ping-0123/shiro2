@@ -41,10 +41,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 		Set<String> permissionNames = new HashSet<>();
 		List<Role> roles = user.getRoles();
 		for (Role role : roles) {
-			if(role.getName().equals("admin")){
+			if(role.getName().equals("Admin")){
 				permissionNames.add("*:*:*");
 				break;
 			}
+			//TODO  findPermission by dao
 			permissionNames.addAll(role.getPermissions());
 		}
 		return permissionNames;

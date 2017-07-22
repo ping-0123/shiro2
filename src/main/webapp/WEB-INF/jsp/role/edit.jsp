@@ -29,9 +29,9 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" id="role_resoueces">
             <form:label path="resources">拥有的资源列表：</form:label>
-            <form:hidden path="resources"/>
+           <!--   <form:hidden path="resources"/> -->
             <input type="text" id="resourceName" name="resourceName" value="${zhangfn:resourceNames(role.resources)}" readonly>
             <a id="menuBtn" href="#">选择</a>
         </div>
@@ -76,20 +76,21 @@
             ];
 
             function onCheck(e, treeId, treeNode) {
+            	var para = document.getElementById("role_resoueces");
                 var zTree = $.fn.zTree.getZTreeObj("tree"),
                         nodes = zTree.getCheckedNodes(true),
                         id = "",
                         name = "";
                 nodes.sort(function compare(a,b){return a.id-b.id;});
                 for (var i=0, l=nodes.length; i<l; i++) {
-                    id += nodes[i].id + ",";
-                    name += nodes[i].name + ",";
+                	var input = document.createElement("input");
+                	input.type="hidden";
+                	input.name="resources[" + i + "].id";
+                	input.value= nodes[i].id ;
+                	para.appendChild(input);
                 }
-                if (id.length > 0 ) id = id.substring(0, id.length-1);
-                if (name.length > 0 ) name = name.substring(0, name.length-1);
-                $("#resourceIds").val(id);
                 $("#resourceName").val(name);
-//                hideMenu();
+        //        hideMenu();
             }
 
             function showMenu() {

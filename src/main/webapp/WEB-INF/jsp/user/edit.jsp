@@ -43,12 +43,12 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" >
             <form:label path="roles">角色列表：</form:label>
-            <form:select path="roles" items="${roleList}" itemLabel="description" itemValue="id" multiple="true"/>
-            (按住shift键多选)
+             <ul id="roleTree" class="ztree" style="margin-top:0; width:160px;"></ul>
         </div>
-
+		<div id="roles"></div>
+		
         <form:button>${op}</form:button>
 
     </form:form>
@@ -57,7 +57,8 @@
     <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
         <ul id="tree" class="ztree" style="margin-top:0; width:160px;"></ul>
     </div>
-
+    
+    
     <script src="${pageContext.request.contextPath}/static/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/static/JQuery zTree v3.5.15/js/jquery.ztree.all-3.5.min.js"></script>
     <script>
@@ -83,7 +84,47 @@
                     </c:if>
                 </c:forEach>
             ];
-
+            
+            var roleTreeSetting = {
+                    check: {
+                        enable: true ,
+                        chkboxType: { "Y": "", "N": "" }
+                    },	
+                    view: {
+                        dblClickExpand: false
+                    },
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    },
+                    callback: {
+                        onCheck: onCheck
+                    }
+                };
+            var roleTreezNodes =[
+                        <c:forEach items="${roleList}" var="r">
+                        	{id:"${r.id}", pId:"0", name:"${r.description}", checked:false},
+                        </c:forEach>
+                     ];
+            $.fn.zTree.init($("#tree"), setting, zNodes);
+            $.fn.zTree.init($("#roleTree"), roleTreeSetting,roleTreezNodes);
+            $("#menuBtn").click(showMenu);
+            
+            function onCheck(e, treeId, treeNode){
+            	var parentElement = document.getElementById("roles");
+            	parentElement.innerHTML ="";
+           	  	var zTree = $.fn.zTree.getZTreeObj(treeId),
+           		    nodes = zTree.getCheckedNodes(true);
+           	  	for (var i=0; i< nodes.length; i++){
+	           	  	var input = document.createElement("input");
+	            	input.type="hidden";
+	            	input.name="roles[" + i + "].id";
+                	input.value= nodes[i].id ;
+                	parentElement.appendChild(input);
+           	  	}
+            }
+            
             function onClick(e, treeId, treeNode) {
                 var zTree = $.fn.zTree.getZTreeObj("tree"),
                         nodes = zTree.getSelectedNodes(),
@@ -100,10 +141,11 @@
                 $("#organizationName").val(name);
                 hideMenu();
             }
-
+            
             function showMenu() {
                 var cityObj = $("#organizationName");
                 var cityOffset = $("#organizationName").offset();
+    //            alert(JSON.stringify(cityOffset));
                 $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 
                 $("body").bind("mousedown", onBodyDown);
@@ -117,11 +159,8 @@
                     hideMenu();
                 }
             }
-
-            $.fn.zTree.init($("#tree"), setting, zNodes);
-            $("#menuBtn").click(showMenu);
+            
         });
     </script>
-
 </body>
 </html>
