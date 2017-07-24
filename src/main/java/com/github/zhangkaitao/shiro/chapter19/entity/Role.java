@@ -39,12 +39,6 @@ public class Role extends BaseEntity {
 	
 	private Boolean available=Boolean.TRUE;
 	
-//	@ManyToMany
-//	@JoinTable(name="sys_role_permission", 
-//			joinColumns=@JoinColumn(name="role_id"),
-//			inverseJoinColumns=@JoinColumn(name="permission_id"))
-//	private List<Permission> pemissions = new ArrayList<>();
-	
 	@ManyToMany
 	@JoinTable(name="sys_user_role",
 		joinColumns={@JoinColumn(name="role_id")},

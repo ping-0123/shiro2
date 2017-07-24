@@ -116,7 +116,6 @@
         </property>
         <property name="defaultFilterChainDefinitions">
             <value>
-            	/static/** = anon
                 /login = authc
                 /logout = logout
                 /unauthorized.jsp = authc
