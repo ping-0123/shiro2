@@ -35,7 +35,7 @@ public class UserTest {
 	@Autowired
 	private SecurityManager securityManager;
 	@Autowired private RetryLimitHashedCredentialsMatcher credentialMatcher;
-	@Autowired private UserRealm userRealm;
+//	@Autowired private UserRealm userRealm;
 	
 	
 	@Test

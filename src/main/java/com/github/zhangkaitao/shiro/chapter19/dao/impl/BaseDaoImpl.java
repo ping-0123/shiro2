@@ -198,7 +198,6 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findByProperties(String[] propertyNames, Object[] values){
 		if(propertyNames.length != values.length){
@@ -216,8 +215,15 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 				throw new IllegalArgumentException("属性名不能为空为null");
 			}
 		}
-		List<T> list =   (List<T>) getHibernateTemplate().findByNamedParam(
-				builder.toString(), properties, values);
+		
+		 Query<T> query = getSession().createQuery(builder.toString(), entityClass);
+		 for(int j=0; j<properties.length;j++){
+			 query.setParameter(properties[j], values[j]);
+		 }
+		 
+		 List<T> list = query.getResultList();
+//		List<T> list =   (List<T>) getHibernateTemplate().findByNamedParam(
+//				builder.toString(), properties, values);
 		if(list == null) return new ArrayList<>();
 		return list;
 	}
