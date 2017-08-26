@@ -5,14 +5,20 @@
  */
 package com.github.zhangkaitao.shiro.spring;
 
-import net.sf.ehcache.Ehcache;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.cache.support.SimpleValueWrapper;
 
-import java.util.*;
+import net.sf.ehcache.Ehcache;
 
 /**
  * 包装Spring cache抽象

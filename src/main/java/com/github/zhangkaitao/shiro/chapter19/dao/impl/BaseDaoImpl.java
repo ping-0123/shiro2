@@ -258,30 +258,68 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 	@Override
 	public PageBean<T> findPageByHql(String hql, int pageNum, int pageSize){
 		Assert.hasLength(hql);
-		if(pageNum <=0)
-			pageNum =1;
-		if(pageSize<=0)
-			pageSize = PageBean.DEFAULT_PAGE_SIZE;
+		
+		if(pageNum <=0) pageNum =PageBean.DEFAULT_PAGE_NO;
+		if(pageSize<=0) pageSize = PageBean.DEFAULT_PAGE_SIZE;
 		
 		int totalRecords =  findCountByHql(_get_count_hql(hql));
 		if(totalRecords ==0)
 			return new PageBean<>(pageSize, pageNum, totalRecords, new ArrayList<>());
 		
-		Query<?> query = getSession().createQuery(hql);
+		Query<T> query = getSession().createQuery(hql, entityClass);
 		query.setFirstResult((pageNum-1) * pageSize);
 		query.setMaxResults(pageSize);
-		@SuppressWarnings({ "unchecked", "deprecation" })
-		List<T> list =(List<T>) query.list();
+		List<T> list = query.getResultList();
 		
 		return new PageBean<>(pageSize, pageNum, totalRecords,list);
 	}
 	
+	@Override
+	public <R> PageBean<R> findPage(String hql, Class<R> resultClass,  String[] namedParameters, Object[] values, int pageNum, int pageSize ){
+		Assert.hasLength(hql);
+		if(namedParameters.length != values.length){
+			throw new IllegalArgumentException("传入的属性名和属性值数量不一致");}
+		if(Arrays.asList(namedParameters).contains(null)) throw new IllegalArgumentException("hql的命名参数不能为null");
+		int totalRecords = findCount(_get_count_hql(hql), namedParameters, values);
+		if(totalRecords == 0)
+			return new PageBean<>(pageSize, pageNum, totalRecords, new ArrayList<>());
 		
-	@SuppressWarnings("unchecked")
+		if(pageNum <=0) pageNum =PageBean.DEFAULT_PAGE_NO;
+		if(pageSize<=0) pageSize = PageBean.DEFAULT_PAGE_SIZE;
+		int offset = (pageNum-1) * pageSize + 1;
+		Query<R> query = getSession().createQuery(hql, resultClass)
+				.setFirstResult(offset)
+				.setMaxResults(pageSize);
+		for(int i=0; i<namedParameters.length; i++){
+			query.setParameter(namedParameters[i], values[i]);
+		}
+		List<R> list = query.getResultList();
+		
+		return new PageBean<>(pageSize, pageNum, totalRecords,list);
+	}
+	
+	@Override
+	public <R> PageBean<R> findPage(String hql, Class<R> resultClass, String namedParameter, Object value, int pageNum, int PageSize){
+		if(namedParameter == null || "".equals(namedParameter.trim()))
+			throw new IllegalArgumentException("hql的命名参数不能为null");
+		String[] namedParameters = {namedParameter};
+		Object[] values = {value};
+		return findPage(hql, resultClass, namedParameters, values, pageNum, PageSize);
+	}
+		
+	private int findCount(String hql, String[] namedParameters, Object[] values) {
+		Query<Long> query = getSession().createQuery(hql, Long.class);
+		for(int i=0; i<namedParameters.length; i++){
+			query.setParameter(namedParameters[i], values[i]);
+		}
+		return query.getSingleResult().intValue();
+	}
+
 	public int findCountByHql(String hql){
 		try{
-			List<Long> list=   (List<Long>) getHibernateTemplate().find(hql);
-			return list.get(0).intValue();
+			return getSession().createQuery(hql, Long.class)
+					.getSingleResult()
+					.intValue();
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 			return 0;
@@ -290,7 +328,7 @@ public abstract class BaseDaoImpl<T,PK extends Serializable>
 	
 	private String _get_count_hql(String hql){
 		int i = hql.toUpperCase().indexOf("FROM");
-		return "select count(*) " + hql.substring(i);
+		return "SELECT COUNT(1) " + hql.substring(i);
 	}
 	
 	@SuppressWarnings("unused")

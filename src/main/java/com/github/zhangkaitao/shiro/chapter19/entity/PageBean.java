@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 
 public class PageBean<T> {
 	
+	public static final  int DEFAULT_PAGE_NO = 1;
 	public static final  int  DEFAULT_PAGE_SIZE = 10;
 	
 	private int pageSize;  //每页显示多少条记录

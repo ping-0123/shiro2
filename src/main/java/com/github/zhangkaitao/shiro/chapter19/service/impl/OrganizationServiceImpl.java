@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.zhangkaitao.shiro.chapter19.dao.OrganizationDao;
 import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
-import com.github.zhangkaitao.shiro.chapter19.exception.DataNotFoundException;
 import com.github.zhangkaitao.shiro.chapter19.service.OrganizationService;
 
 
