@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.github.zhangkaitao.shiro.chapter19.dao.UserDao;
@@ -29,13 +28,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 	
 	@Override
-//	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public Set<String> findRoles(String username) {
 		return findByUsername(username)!=null?findByUsername(username).getRoleNames():Collections.emptySet();
 	}
 
 	@Override
-//	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public Set<String> findPermissions(User user) {
 		if(user==null) return Collections.emptySet();
 		Set<String> permissionNames = new HashSet<>();
@@ -52,7 +49,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Override
-	@Cacheable(value="service", key="#username" /**keyGenerator="keyGenerator"*/)
 	public User findByUsername(String username) {
 		List<User> users = super.findByProperty("username", username);
 		return users.size()==0? null: users.get(0);
@@ -68,7 +64,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 	
 	@Override
-	@Cacheable(value="service", keyGenerator="keyGenerator")
 	public List<User> findAll(){
 		return super.findAll();
 	}

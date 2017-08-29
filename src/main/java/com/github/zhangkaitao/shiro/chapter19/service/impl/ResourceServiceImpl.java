@@ -69,7 +69,6 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource,Long> implemen
 
 
 	    @Override
-//	    @Cacheable(value="service", key)
 	    public List<Resource> findAll(){
 	    	return super.findAll();
 	    }
