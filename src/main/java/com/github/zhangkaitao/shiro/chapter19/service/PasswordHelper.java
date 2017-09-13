@@ -1,6 +1,9 @@
 package com.github.zhangkaitao.shiro.chapter19.service;
 
 import com.github.zhangkaitao.shiro.chapter19.entity.User;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -15,7 +18,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PasswordHelper {
-
+	private static Log logger = LogFactory.getLog(PasswordHelper.class);
+	
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
 
     @Value("${password.algorithmName}")
@@ -36,7 +40,9 @@ public class PasswordHelper {
     }
 
     public void encryptPassword(User user) {
-
+    	logger.info("algorithmName is " + algorithmName);
+    	logger.info("hashIterations is " + hashIterations);
+    	
         user.setSalt(randomNumberGenerator.nextBytes().toHex());
 //    	user.setSalt("0f3742030f3d960e735ecaf525589a99");
 

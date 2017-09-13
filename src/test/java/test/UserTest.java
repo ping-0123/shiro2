@@ -18,7 +18,6 @@ import com.github.zhangkaitao.shiro.chapter19.credentials.RetryLimitHashedCreden
 import com.github.zhangkaitao.shiro.chapter19.entity.Organization;
 import com.github.zhangkaitao.shiro.chapter19.entity.Role;
 import com.github.zhangkaitao.shiro.chapter19.entity.User;
-import com.github.zhangkaitao.shiro.chapter19.realm.UserRealm;
 import com.github.zhangkaitao.shiro.chapter19.service.OrganizationService;
 import com.github.zhangkaitao.shiro.chapter19.service.ResourceService;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;

@@ -169,7 +169,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>chapter19</finalName>
+		<finalName>shiro</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
