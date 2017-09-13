@@ -120,7 +120,7 @@
                 /login = authc
                 /logout = logout
                 /unauthorized.jsp = authc
-                /** = user,sysUser
+                /** = user, sysUser
             </value>
         </property>
     </bean>

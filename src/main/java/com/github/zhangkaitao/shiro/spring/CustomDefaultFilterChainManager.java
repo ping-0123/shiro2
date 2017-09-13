@@ -127,7 +127,7 @@ public class CustomDefaultFilterChainManager extends DefaultFilterChainManager {
 
     public FilterChain proxy(FilterChain original, List<String> chainNames) {
         NamedFilterList configured = new SimpleNamedFilterList(chainNames.toString());
-        for(String chainName : chainNames) {
+        for(String chainName : chainNames) { 
             configured.addAll(getChain(chainName));
         }
         return configured.proxy(original);

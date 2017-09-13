@@ -18,11 +18,11 @@ import com.github.zhangkaitao.shiro.chapter19.entity.User;
 import com.github.zhangkaitao.shiro.chapter19.service.UserService;
 
 /**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
+ * 
+ * @author ping
+ * @Date 2017年9月3日 下午9:51:09
+ *
  */
-
 //@Component
 public class UserRealm extends AuthorizingRealm {
 
